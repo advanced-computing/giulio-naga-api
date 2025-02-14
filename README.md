@@ -1,2 +1,2 @@
 # giulio-naga-api
-Use our api to get the mean of interns in clean energy companies.
+Use our api to get the mean of interns and employees in clean energy companies.
