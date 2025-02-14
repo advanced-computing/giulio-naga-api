@@ -1,0 +1,10 @@
+Flask==3.*
+isort
+jupyter==1.*
+ruff
+pandas
+numpy
+plotly
+matplotlib
+python-dotenv
+google-genai
