@@ -1,2 +1,2 @@
 # giulio-naga-api
-lab4
+Use our api to get the mean of interns in clean energy companies.
