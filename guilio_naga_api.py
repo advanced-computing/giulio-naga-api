@@ -1,4 +1,4 @@
-from flask import Flask, render_template, jsonify, request
+from flask import Flask, render_template, jsonify, request, Response
 import pandas as pd 
 
 app = Flask(__name__)
@@ -7,7 +7,12 @@ df = pd.read_csv("energy.csv")
 
 @app.route("/")
 def show_table():
-    return render_template("index.html", table=df.to_html())
+    # offset&limit
+    offset = request.args.get("offset", default=0, type=int)
+    limit = request.args.get("limit", default=100, type=int)
+    paginated_df = df.iloc[offset: offset + limit]
+
+    return render_template("index.html", table=paginated_df.to_html())
 
 @app.route("/intern")
 def intern_mean():
@@ -35,12 +40,26 @@ def employee_mean():
 
 @app.route("/filter_employees", methods=["GET"])
 def filter_employees():
-    filter_employees = request.args.get("a", default=100, type=int)
     df["Employees"] = pd.to_numeric(df["Employees"], errors="coerce")
+
+    # filter
+    filter_employees = request.args.get("a", default=100, type=int)
     filtered_df = df[df["Employees"] >= filter_employees]
 
     return render_template("index.html", table=filtered_df.to_html())
 
+@app.route("/record/<int:id>", methods=["GET"])
+def record(id):
+    format_type = request.args.get("format", default="json", type=str).lower()
+
+    if 0 <= id < len(df):
+        record = df.iloc[id].to_dict()
+        if format_type == "csv":
+            csv_data = pd.DataFrame([record]).to_csv(index=False)
+            return Response(csv_data, mimetype="text/csv")
+        return jsonify(record)
+    else:
+        return jsonify({"error": "Record not found"}), 404
 
 if __name__ == "__main__":
     app.run(debug=True)
