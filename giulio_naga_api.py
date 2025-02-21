@@ -61,5 +61,12 @@ def record(id):
     else:
         return jsonify({"error": "Record not found"}), 404
 
+def compute_employee_stats(df):
+    return {
+        "The mean of employees": df["Employees"].mean(),
+        "The min of employees": df["Employees"].min(),
+        "The max of employees": df["Employees"].max(),
+    }
+
 if __name__ == "__main__":
     app.run(debug=True)
