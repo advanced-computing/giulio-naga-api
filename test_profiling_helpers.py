@@ -22,3 +22,7 @@ def test_parse_dollars():
 
     # https://pandas.pydata.org/docs/reference/api/pandas.Series.equals.html
     assert result.equals(expected)
+
+if __name__ == "__main__":
+    test_parse_dollars()
+    print("All tests passed!")
