@@ -15,16 +15,24 @@ def show_table():
     return render_template("index.html", table=paginated_df.to_html())
 
 @app.route("/intern")
-def intern_mean():
-    intern_mean = float(df["Total Interns"].mean())
-    intern_min = float(df["Total Interns"].min())
-    intern_max = float(df["Total Interns"].max())
-
+def intern_info():
     return jsonify(
-        {"The mean of interns": intern_mean,
-        "The min of interns": intern_min,
-        "The max of interns": intern_max}
+        {"The mean of interns": calculate_intern_mean(df),
+        "The min of interns": calculate_intern_min(df),
+        "The max of interns": calculate_intern_max(df)}
     )
+
+def calculate_intern_mean(df):
+    intern_mean = float(df["Total Interns"].mean())
+    return intern_mean
+
+def calculate_intern_min(df):
+    intern_min = float(df["Total Interns"].min())
+    return intern_min
+
+def calculate_intern_max(df):
+    intern_max = float(df["Total Interns"].max())
+    return intern_max
 
 @app.route("/employee")
 def employee_mean():
