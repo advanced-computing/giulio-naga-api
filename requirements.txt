@@ -6,3 +6,4 @@ numpy
 plotly
 matplotlib
 jupyter==1.*
+ydata_profiling
