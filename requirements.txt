@@ -1,9 +1,16 @@
 Flask==3.*
 isort
+jupyter==1.*
+linkchecker
+# without this, get an error of "module 'numpy' has no attribute '_no_nep50_warning'"
+# https://github.com/ydataai/ydata-profiling/pull/1682
+numpy<=2.3
+pandas==2.*
 ruff
-pandas
 numpy
 plotly
 matplotlib
-jupyter==1.*
+pytest
+pytest-cov
+ruff
 ydata_profiling
