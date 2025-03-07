@@ -10,6 +10,9 @@ ruff
 numpy
 plotly
 matplotlib
+jupyter==1.*
+ydata_profiling
+duckdb
 pytest
 pytest-cov
 ruff
