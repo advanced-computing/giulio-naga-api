@@ -1,21 +1,40 @@
 from flask import Flask, render_template, jsonify, request, Response
 import pandas as pd 
+import duckdb
 
 app = Flask(__name__)
 
 df = pd.read_csv("energy.csv")
+
+con = duckdb.connect("file.db")
+
+con.sql("""
+    CREATE TABLE IF NOT EXISTS users(
+        username TEXT,
+        age INTEGER,
+        country TEXT
+        )
+""")
+con.sql("""
+    INSERT INTO users VALUES ("giulio", 25, "Italy"), ("naga", 30, "India");
+con.close()
 
 @app.route("/")
 def show_table():
     # offset&limit
     offset = request.args.get("offset", default=0, type=int)
     limit = request.args.get("limit", default=100, type=int)
-    paginated_df = df.iloc[offset: offset + limit]
 
-    return render_template("index.html", table=paginated_df.to_html())
+    query = f"SELECT * FROM energy LIMIT {limit} OFFSET {offset}"
+    df = con.sql(query).df()
+
+    return render_template("index.html", table=df.to_html())
 
 @app.route("/intern")
 def intern_info():
+    query = "SELECT AVG(\"Total Interns\") as mean, MIN(\"Total Interns\") as min, MAX(\"Total Interns\") as max FROM energy"
+    result = con.sql(query).df().iloc[0].to_dict()
+
     return jsonify(
         {"The mean of interns": calculate_intern_mean(df),
         "The min of interns": calculate_intern_min(df),
