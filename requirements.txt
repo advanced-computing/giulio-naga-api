@@ -10,13 +10,10 @@ ruff
 numpy
 plotly
 matplotlib
-<<<<<<< HEAD
 jupyter==1.*
 ydata_profiling
 duckdb
-=======
 pytest
 pytest-cov
 ruff
 ydata_profiling
->>>>>>> 6f758436dcaa5699bb7896114e8f4c9f0fe7dbd2
