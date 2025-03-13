@@ -1,5 +1,7 @@
 import duckdb
 
+# initialize the database and populates it with the data from the CSV file.
+
 con = duckdb.connect("energy.db") 
 
 con.sql("""
